@@ -12,13 +12,8 @@ Puppet::Type.type(:kubernetes_secret).provide(:swagger, :parent => PuppetX::Pupp
   def self.instance_to_hash(instance)
     {
     ensure: :present,
-    name: instance.metadata.name,
+    name: defined? instance.metadata.puppet_resource_name ? instance.metadata.puppet_resource_name : instance.metadata.name,
     
-      
-    
-      
-    
-      
         metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
       
     
@@ -38,20 +33,20 @@ Puppet::Type.type(:kubernetes_secret).provide(:swagger, :parent => PuppetX::Pupp
 
   def create
     Puppet.info("Creating kubernetes_secret #{name}")
-    create_instance_of('secret', name, build_params)
+    create_instance_of('secret', build_name(name), build_params)
   end
 
   def flush
    unless @property_hash.empty?
      unless resource[:ensure] == :absent
-        flush_instance_of('secret', name, @property_hash[:object], build_params)
+        flush_instance_of('secret', build_name(name), @property_hash[:object], build_params)
       end
     end
   end
 
   def destroy
     Puppet.info("Deleting kubernetes_secret #{name}")
-    destroy_instance_of('secret', name)
+    destroy_instance_of('secret', build_name(name))
     @property_hash[:ensure] = :absent
   end
 
@@ -84,5 +79,9 @@ Puppet::Type.type(:kubernetes_secret).provide(:swagger, :parent => PuppetX::Pupp
     }
     params.delete_if { |key, value| value.nil? }
     params
+  end
+
+  def build_name(name)
+    resource[:metadata]['name'] || name
   end
 end
