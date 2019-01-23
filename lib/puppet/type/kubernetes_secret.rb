@@ -14,7 +14,7 @@ Puppet::Type.newtype(:kubernetes_secret) do
 
   
 
-  newparam(:name, namevar: true) do
+  newparam(:secretname, namevar: true) do
     desc 'Name of the secret.'
   end
   
