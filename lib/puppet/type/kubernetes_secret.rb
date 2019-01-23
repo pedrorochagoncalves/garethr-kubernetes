@@ -12,7 +12,15 @@ Puppet::Type.newtype(:kubernetes_secret) do
 
   ensurable
 
-  
+  def self.title_patterns
+    [
+      [ /(^([^\/]*)$)/m,
+        [ [:name] ] ],
+      [ /^([^\/]+)\/([^\/]+)$/,
+        [ [:namespace], [:name] ]
+      ]
+    ]
+  end
 
   newparam(:name, namevar: true) do
     desc 'Name of the secret.'

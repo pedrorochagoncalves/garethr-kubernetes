@@ -9,20 +9,10 @@ Puppet::Type.type(:kubernetes_secret).provide(:swagger, :parent => PuppetX::Pupp
 
   mk_resource_methods
 
-  def self.title_patterns
-      [
-        [ /(^([^\/]*)$)/m,
-          [ [:name] ] ],
-        [ /^([^\/]+)\/([^\/]+)$/,
-          [ [:namespace], [:name] ]
-        ]
-      ]
-  end
-
   def self.instance_to_hash(instance)
     {
     ensure: :present,
-    name: instance.metadata.name
+    name: instance.metadata.name,
     namespace: instance.metadata.namespace,
     
       
