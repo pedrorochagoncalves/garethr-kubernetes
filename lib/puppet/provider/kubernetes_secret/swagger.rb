@@ -66,7 +66,7 @@ Puppet::Type.type(:kubernetes_secret).provide(:swagger, :parent => PuppetX::Pupp
     
       
     
-      
+        namespace: resource[:namespace],
     
       
         metadata: resource[:metadata],
