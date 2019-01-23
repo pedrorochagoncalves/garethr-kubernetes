@@ -12,7 +12,7 @@ Puppet::Type.type(:kubernetes_secret).provide(:swagger, :parent => PuppetX::Pupp
   def self.instance_to_hash(instance)
     {
     ensure: :present,
-    name: defined? instance.metadata.puppet_resource_name ? instance.metadata.puppet_resource_name : instance.metadata.name,
+    name: defined?(instance.metadata.annotations.puppet_resource_name) ? instance.metadata.annotations.puppet_resource_name : instance.metadata.name,
     
         metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
       
