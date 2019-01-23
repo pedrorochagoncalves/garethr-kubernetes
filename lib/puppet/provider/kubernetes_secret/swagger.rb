@@ -23,7 +23,7 @@ Puppet::Type.type(:kubernetes_secret).provide(:swagger, :parent => PuppetX::Pupp
     {
     ensure: :present,
     name: instance.metadata.name
-    secretname: instance.metadata.name,
+    namespace: instance.metadata.namespace,
     
       
     
